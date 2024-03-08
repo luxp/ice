@@ -123,11 +123,10 @@ export function useSuspenseData(request?: Request) {
 interface SuspenseProps {
   id: string;
   fallback?: ReactNode;
-  [key: string]: any;
 }
 
-export function withSuspense(Component) {
-  return (props: SuspenseProps) => {
+export function withSuspense<T extends Record<string, any>>(Component: React.ComponentType<Omit<T, 'fallback' | 'id'>>) {
+  return (props: SuspenseProps & T) => {
     const { fallback, id, ...componentProps } = props;
 
     const [suspenseState, updateSuspenseData] = React.useState({
